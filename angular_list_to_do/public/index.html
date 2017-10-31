@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app = "ToDoModule">
+<head>
+    <title>This is a simple-to-do-list app</title>
+    <link rel="stylesheet" href="asset/style.css">
+    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script> 
+</head>
+<body>
+    <div ng-app>
+        <div class="container" ng-controller="ModuleController">
+            <h1>To Do List</h1>
+            <div class = "input_tag">
+                <br/>
+                To Do:
+                <br/>
+            </div>
+                <input type="text" ng-model="inputDataToDo" placeholder="enter the next thing you would do" class = "inputfield"/>
+                <br />
+            <div class = "input_tag">
+                Time:<br />
+            </div>
+                <input type="text" ng-model="inputDataTime" placeholder="enter the time" class = "inputfield" />
+                <br /> <br/>
+                <button id="myinputbutton" ng-click="addtoDo();inputDataToDo = '';inputDataTime = ''">Add ToDo</button>
+
+            <div id = "search_space">
+                <br/>
+                Search based on subject or time
+            </div>
+                <input type="text" ng-model="SearchText" placeholder = "ex: 9/30" class = "searchfield" />
+
+            <br />
+        <ul>
+            <li style="list-style: none" ng-repeat="ThingsToDo in TodoList | filter:SearchText | orderBy:'Time'"  id="{{$index}}"> 
+                <todolist> <timedisplay>  {{ ThingsToDo.Time }}</timedisplay> - {{ ThingsToDo.ToDo}}  </todolist>
+                <buttonstyle>
+                    <button id = "removebutton" type = "button" ng-click="delete(ThingsToDo)">Remove the this item</button>
+            </buttonstle>
+            </li>
+        </ul>
+        </div>
+    </div>
+</body>
+
+
+<script>
+    var ToDoModule = angular.module('ToDoModule',[]);
+    ToDoModule.controller('ModuleController', function($scope) {
+            $scope.TodoList = [
+                { ToDo: 'Class 1 what is html', Time: '09/30 10:00' },
+                { ToDo: 'Class 2 how to play starcraft', Time: '09/30 13:00' },
+                { ToDo: 'Gym', Time: '09/31 10:00' },
+                { ToDo: 'Dinner alone', Time: '09/31 18:00' }
+            ];
+
+            $scope.addtoDo = function () {
+                if($scope.inputvalidation()){
+                $scope.TodoList.push({ ToDo: $scope.inputDataToDo, 
+                    Time: $scope.inputDataTime });
+                }
+                else{
+                    alert("empty input is not allowed");
+                }
+            }
+
+            $scope.delete = function (ThingsToDo) {
+                $scope.TodoList.splice($scope.TodoList.indexOf(ThingsToDo), 1);
+            }
+
+            $scope.inputvalidation = function(){
+                var result = true;
+                if($scope.inputDataToDo == "" || $scope.inputDataTime == ""){
+                    result = false;
+                }
+                return result;
+            }
+        }
+    )
+</script>
+
