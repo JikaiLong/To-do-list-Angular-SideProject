@@ -1,2 +1,2 @@
 # To-do-list-with-angular-component
-An old Angular web app
+An Angular1/Angularjs attempt with basic web stuff
